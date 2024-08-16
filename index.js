@@ -32,6 +32,7 @@ async function run() {
   try {
     
     const allfooddata = client.db('restrobiz').collection('allfood');
+    const purchase = client.db('restrobiz').collection('purchase');
 
 
     // geting all food data
@@ -49,6 +50,15 @@ async function run() {
       const id = req.params.id
       const query = {_id: new ObjectId(id)}
       const result = await allfooddata.findOne(query)
+      res.send(result)
+    })
+
+
+    // save purchase data on bd
+
+    app.post('/purchasedata', async (req, res)=>{
+      const purchdata= req.body
+      const result = await purchase.insertOne(purchdata)
       res.send(result)
     })
    
