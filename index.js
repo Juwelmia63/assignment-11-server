@@ -61,6 +61,14 @@ async function run() {
       const result = await purchase.insertOne(purchdata)
       res.send(result)
     })
+
+    // save FOOD data on bd
+
+    app.post('/addfood', async (req, res)=>{
+      const addfooddata= req.body
+      const result = await allfooddata.insertOne(addfooddata)
+      res.send(result)
+    })
    
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
