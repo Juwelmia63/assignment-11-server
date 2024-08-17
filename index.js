@@ -69,6 +69,14 @@ async function run() {
       const result = await allfooddata.insertOne(addfooddata)
       res.send(result)
     })
+    // get all food item by email
+
+    app.get('/addfood/:email', async (req, res)=>{
+      const email = req.params.email
+      const query= {'email':email}
+      const result = await allfooddata.find(query).toArray()
+      res.send(result)
+    })
    
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
