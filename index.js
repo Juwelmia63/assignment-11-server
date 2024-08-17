@@ -88,6 +88,25 @@ async function run() {
 
 
 
+
+
+    // Route to fetch top 6 food items by purchase count
+    app.get('/topFoodsItem', async (req, res) => {
+      try {
+          const topFoods = await allfooddata.find({})
+              .sort({ purchaseCount: -1 }) 
+              .limit(6)
+              .toArray();
+          
+          res.json(topFoods);
+      } catch (error) {
+          console.error("Error fetching top foods:", error);
+          res.status(500).json({ message: "Failed to fetch top foods" });
+      }
+  });
+
+
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
