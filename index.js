@@ -30,14 +30,14 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    
+
     const allfooddata = client.db('restrobiz').collection('allfood');
     const purchase = client.db('restrobiz').collection('purchase');
 
 
     // geting all food data
 
-    app.get('/allfood', async (req, res)=>{
+    app.get('/allfood', async (req, res) => {
       const result = await allfooddata.find().toArray();
 
       res.send(result);
@@ -46,9 +46,9 @@ async function run() {
 
     // geting single food data using id
 
-    app.get('/singlefoodpage/:id', async (req, res)=>{
+    app.get('/singlefoodpage/:id', async (req, res) => {
       const id = req.params.id
-      const query = {_id: new ObjectId(id)}
+      const query = { _id: new ObjectId(id) }
       const result = await allfooddata.findOne(query)
       res.send(result)
     })
@@ -56,45 +56,55 @@ async function run() {
 
     // save purchase data on bd
 
-    app.post('/purchasedata', async (req, res)=>{
-      const purchdata= req.body
+    app.post('/purchasedata', async (req, res) => {
+      const purchdata = req.body
       const result = await purchase.insertOne(purchdata)
+      res.send(result)
+    })
+
+    // get purchase data from db
+    app.get('/mypurchasedata/:email', async (req, res) => {
+      const email = req.params.email
+      const query = { buyerEmail: email }
+      const result = await purchase.find(query).toArray()
       res.send(result)
     })
 
     // save FOOD data on bd
 
-    app.post('/addfood', async (req, res)=>{
-      const addfooddata= req.body
+    app.post('/addfood', async (req, res) => {
+      const addfooddata = req.body
       const result = await allfooddata.insertOne(addfooddata)
       res.send(result)
     })
     // get all food item by email
 
-    app.get('/addfood/:email', async (req, res)=>{
+    app.get('/addfood/:email', async (req, res) => {
       const email = req.params.email
-      const query= {'email':email}
+      const query = { 'email': email }
       const result = await allfooddata.find(query).toArray()
       res.send(result)
     })
-   
+
+
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
-   
+
   }
 }
 run().catch(console.dir);
 
 
 
-app.get('/', (req, res)=>{
-    res.send('assignment elven data is comming soon')
+app.get('/', (req, res) => {
+  res.send('assignment elven data is comming soon')
 })
 
-app.listen(port, ()=>{
-    console.log(`port is running on ${port}`);
+app.listen(port, () => {
+  console.log(`port is running on ${port}`);
 })
 
 
