@@ -53,6 +53,15 @@ async function run() {
       res.send(result)
     })
 
+    // deleting single purchase food data using id
+
+    app.delete('/purchase/:id', async (req, res) => {
+      const id = req.params.id
+      const query = { _id: new ObjectId(id) }
+      const result = await purchase.deleteOne(query)
+      res.send(result)
+    })
+
 
     // save purchase data on bd
 
