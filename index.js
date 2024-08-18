@@ -53,6 +53,24 @@ async function run() {
       res.send(result)
     })
 
+
+    // update a single food item by id
+
+    app.put('/food/:id', async (req, res)=>{
+      const id = req.params.id
+      const fooddata = req.body
+      const query = {_id: new ObjectId(id)}
+      const options = {upsert:true}
+      const updateItem = {
+        $set : {
+          ...fooddata,
+        },
+      }
+
+      const result = await allfooddata.updateOne(query,updateItem,options)
+      res.send(result)
+    })
+
     // deleting single purchase food data using id
 
     app.delete('/purchase/:id', async (req, res) => {
