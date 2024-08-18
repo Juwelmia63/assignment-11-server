@@ -33,6 +33,7 @@ async function run() {
 
     const allfooddata = client.db('restrobiz').collection('allfood');
     const purchase = client.db('restrobiz').collection('purchase');
+    const imagecollection = client.db('restrobiz').collection('image');
 
 
     // geting all food data
@@ -104,6 +105,25 @@ async function run() {
       const result = await allfooddata.insertOne(addfooddata)
       res.send(result)
     })
+    // save gallery data on bd
+
+    app.post('/galleryimage', async (req, res) => {
+      const addgallerydata = req.body
+      const result = await imagecollection.insertOne(addgallerydata)
+      res.send(result)
+    })
+
+    // geting all gallery data
+
+    app.get('/allgalleryfood', async (req, res) => {
+      const result = await imagecollection.find().toArray();
+
+      res.send(result);
+    })
+
+
+
+    
     // get all food item by email
 
     app.get('/addfood/:email', async (req, res) => {
